@@ -1,0 +1,15 @@
+query Me {
+  me {
+    id
+    name
+    email
+  }
+}
+
+mutation CreateUser($email: String!, $password: String!) {
+  createUser(email: $email, password: $password) {
+    id
+    email
+    name
+  }
+}
