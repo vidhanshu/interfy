@@ -11,46 +11,60 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Eye, EyeOff, Mail, Lock, UserPlus } from "lucide-react";
+import {
+  Eye,
+  EyeOff,
+  Mail,
+  Lock,
+  Star,
+  Check,
+  CheckCircle,
+} from "lucide-react";
 import Link from "next/link";
-import { useCreateUserMutation } from "@/frontend/gql/generated";
-import { toast } from "sonner";
 import { signIn } from "next-auth/react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 
-export default function SignUpPage() {
+export default function SignInPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  //
-  const [createUser, { loading }] = useCreateUserMutation({
-    onCompleted: (data) => {
-      if (data?.createUser?.email) {
-        signIn("credentials", { email, password });
-      }
-    },
-    onError(error) {
-      toast.error(error.message);
-    },
-  });
-
-  //
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    createUser({ variables: { email, password } });
+
+    try {
+      setLoading(true);
+
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        toast.error("Email or Password not correct");
+      } else {
+        router.replace("/");
+      }
+    } catch (error) {
+      console.log("[error]", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <Card className="w-full max-w-md shadow-xl">
+    <Card className="shadow-xl">
       <CardHeader className="space-y-1">
-        <div className="flex justify-center mb-2">
-          <UserPlus className="h-8 w-8 text-primary" />
-        </div>
         <CardTitle className="text-2xl font-bold text-center">
-          Create account
+          Welcome back
         </CardTitle>
         <CardDescription className="text-center">
-          Enter your details to create your account
+          Enter your credentials to access your account
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -58,14 +72,14 @@ export default function SignUpPage() {
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <div className="relative">
-              <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Mail className="absolute left-3 top-4 h-4 w-4 text-muted-foreground" />
               <Input
                 id="email"
                 type="email"
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="pl-10"
+                className="pl-10 py-3 h-auto md:text-base"
                 required
               />
             </div>
@@ -74,14 +88,14 @@ export default function SignUpPage() {
           <div className="space-y-2">
             <Label htmlFor="password">Password</Label>
             <div className="relative">
-              <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Lock className="absolute left-3 top-4 h-4 w-4 text-muted-foreground" />
               <Input
                 id="password"
                 type={showPassword ? "text" : "password"}
-                placeholder="Create a password"
+                placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="pl-10 pr-10"
+                className="pl-10 pr-10 py-3 h-auto md:text-base"
                 required
               />
               <Button
@@ -100,20 +114,18 @@ export default function SignUpPage() {
             </div>
           </div>
 
-          <Button disabled={loading} type="submit" className="w-full" size="lg">
-            Create Account
+          <Button disabled={loading} type="submit" className="w-full" size="xl">
+            Sign In
           </Button>
         </form>
 
         <div className="mt-6 text-center text-sm">
-          <span className="text-muted-foreground">
-            Already have an account?{" "}
-          </span>
+          <span className="text-muted-foreground">Don't have an account? </span>
           <Link
-            href="/auth/sign-in"
+            href="/auth/sign-up"
             className="text-primary hover:underline font-medium"
           >
-            Sign in
+            Sign up
           </Link>
         </div>
       </CardContent>

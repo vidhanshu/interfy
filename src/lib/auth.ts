@@ -99,9 +99,25 @@ export const authOptions: AuthOptions = {
     },
     async session({ session, token }) {
       if (token && session.user) {
-        session.user.id = token.id;
-        session.user.email = token.email;
-        session.user.name = token.name;
+        try {
+          // to get up-to-date user data
+          const user = await prisma.user.findUnique({
+            where: { id: token.id },
+            select: { id: true, email: true, name: true },
+          });
+
+          if (user) {
+            session.user.id = user.id;
+            session.user.email = user.email;
+            session.user.name = user.name;
+          }
+        } catch (error) {
+          console.error("Error fetching user data for session:", error);
+          // Fallback to token data if database fetch fails
+          session.user.id = token.id;
+          session.user.email = token.email;
+          session.user.name = token.name;
+        }
       }
       return session;
     },

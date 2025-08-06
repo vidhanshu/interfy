@@ -29,43 +29,45 @@ A modern full-stack application built with Next.js, GraphQL, Prisma, and NextAut
 
 ```
 interfy/
-├── prisma/                          # Database schema and migrations
-│   ├── schema.prisma               # Database schema definition
-│   └── migrations/                 # Database migration files
+├── prisma/                        # Database schema and migrations
+│   ├── schema.prisma              # Database schema definition
+│   └── migrations/                # Database migration files
 ├── src/
-│   ├── app/                        # Next.js App Router pages
-│   │   ├── api/                    # API routes
+│   ├── app/                       # Next.js App Router pages
+│   │   ├── api/                   # API routes
 │   │   │   ├── auth/              # Authentication API endpoints
 │   │   │   └── graphql/           # GraphQL API endpoint
-│   │   ├── (auth)                 # User can only visit if not authenticated
-        |   ├── auth/              # Authentication pages
-│   │   │   ├── sign-in.tsx        # Login page
-│   │   │   └── sign-up.tsx        # Registration page
+│   │   ├── (public)               # User can only visit if not authenticated
+│   │   │   ├──(auth)              # Auth route group
+│   │   │   │  └── auth/
+│   │   │   │      ├── sign-in.tsx # Login page
+│   │   │   │      └── sign-up.tsx # Registration page
+│   │   │   └── landing.tsx        # Landing page
 │   │   ├── (main)                 # User can only visit if authenticated
 │   │   |     └── page.tsx         # Home page ..... entire app resides in this route group
 │   │   ├── globals.css            # Global styles
 │   │   └── layout.tsx             # Root layout
 │   │
-│   ├── components/                 # Reusable UI components
+│   ├── components/                # Reusable UI components
 │   │   └── ui/                    # shadcn/ui components
-│   ├── frontend/                   # Frontend GraphQL setup
+│   ├── frontend/                  # Frontend GraphQL setup
 │   │   └── gql/                   # GraphQL queries and generated types
-│   ├── graphql/                    # GraphQL server setup
+│   ├── graphql/                   # GraphQL server setup
 │   │   ├── modules/               # GraphQL modules (resolvers, schemas)
-│   │   │   └── user/             # User-related GraphQL operations
+│   │   │   └── user/              # User-related GraphQL operations
 │   │   ├── context.ts             # GraphQL context with auth
 │   │   └── index.ts               # GraphQL server setup
-│   ├── lib/                        # Utility libraries
+│   ├── lib/                       # Utility libraries
 │   │   ├── auth.ts                # NextAuth configuration
 │   │   ├── prisma.ts              # Prisma client setup
 │   │   └── utils.ts               # Utility functions
-│   └── types/                      # TypeScript type definitions
+│   └── types/                     # TypeScript type definitions
 │       └── generated/             # Auto-generated GraphQL types
-├── public/                         # Static assets
-├── .env                            # Environment variables
-├── components.json                 # shadcn/ui configuration
-├── codegen.ts                      # GraphQL code generation config
-└── package.json                    # Dependencies and scripts
+├── public/                        # Static assets
+├── .env                           # Environment variables
+├── components.json                # shadcn/ui configuration
+├── codegen.ts                     # GraphQL code generation config
+└── package.json                   # Dependencies and scripts
 ```
 
 ## 🛠 Setup Instructions

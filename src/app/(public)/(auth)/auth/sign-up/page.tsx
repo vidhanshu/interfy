@@ -11,51 +11,44 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Eye, EyeOff, Mail, Lock } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, UserPlus } from "lucide-react";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
+import { useCreateUserMutation } from "@/frontend/gql/generated";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
+import Image from "next/image";
 
-export default function SignInPage() {
-  const router = useRouter();
+export default function SignUpPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  //
+  const [createUser, { loading }] = useCreateUserMutation({
+    onCompleted: (data) => {
+      if (data?.createUser?.email) {
+        signIn("credentials", { email, password });
+      }
+    },
+    onError(error) {
+      toast.error(error.message);
+    },
+  });
+
+  //
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    try {
-      setLoading(true);
-
-      const result = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
-
-      if (result?.error) {
-        toast.error("Email or Password not correct");
-      } else {
-        router.replace("/");
-      }
-    } catch (error) {
-      console.log("[error]", error);
-    } finally {
-      setLoading(false);
-    }
+    createUser({ variables: { email, password } });
   };
 
   return (
-    <Card className="w-full max-w-md shadow-xl">
+    <Card className="shadow-xl">
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl font-bold text-center">
-          Welcome back
+          Create account
         </CardTitle>
         <CardDescription className="text-center">
-          Enter your credentials to access your account
+          Enter your details to create your account
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -63,14 +56,14 @@ export default function SignInPage() {
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <div className="relative">
-              <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Mail className="absolute left-3 top-4 h-4 w-4 text-muted-foreground" />
               <Input
                 id="email"
                 type="email"
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="pl-10"
+                className="pl-10 py-3 h-auto md:text-base"
                 required
               />
             </div>
@@ -79,14 +72,14 @@ export default function SignInPage() {
           <div className="space-y-2">
             <Label htmlFor="password">Password</Label>
             <div className="relative">
-              <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Lock className="absolute left-3 top-4 h-4 w-4 text-muted-foreground" />
               <Input
                 id="password"
                 type={showPassword ? "text" : "password"}
-                placeholder="Enter your password"
+                placeholder="Create a password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="pl-10 pr-10"
+                className="pl-10 py-3 pr-10 h-auto md:text-base"
                 required
               />
               <Button
@@ -105,18 +98,20 @@ export default function SignInPage() {
             </div>
           </div>
 
-          <Button disabled={loading} type="submit" className="w-full" size="lg">
-            Sign In
+          <Button disabled={loading} type="submit" className="w-full" size="xl">
+            Create Account
           </Button>
         </form>
 
         <div className="mt-6 text-center text-sm">
-          <span className="text-muted-foreground">Don't have an account? </span>
+          <span className="text-muted-foreground">
+            Already have an account?{" "}
+          </span>
           <Link
-            href="/auth/sign-up"
+            href="/auth/sign-in"
             className="text-primary hover:underline font-medium"
           >
-            Sign up
+            Sign in
           </Link>
         </div>
       </CardContent>

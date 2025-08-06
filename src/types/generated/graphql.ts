@@ -21,12 +21,20 @@ export type Scalars = {
 export type Mutation = {
   __typename?: 'Mutation';
   createUser?: Maybe<User>;
+  deleteUser?: Maybe<Scalars['Boolean']['output']>;
+  updateUser?: Maybe<User>;
 };
 
 
 export type MutationCreateUserArgs = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
+};
+
+
+export type MutationUpdateUserArgs = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Query = {
@@ -140,6 +148,8 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
 
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'email' | 'password'>>;
+  deleteUser?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationUpdateUserArgs>>;
 };
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
