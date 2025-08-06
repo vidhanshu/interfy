@@ -6,11 +6,22 @@ import { useSession } from "next-auth/react";
 import { User } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const UserProfileLink = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
-  if (!session) return null;
+  if (status === "loading") {
+    return (
+      <div className="flex gap-x-2">
+        <Skeleton className="size-10 rounded-full" />
+        <div className="flex flex-col gap-2">
+          <Skeleton className="w-16 h-4" />
+          <Skeleton className="w-22 h-4" />
+        </div>
+      </div>
+    );
+  }
   return (
     <Link href="/profile">
       <div className="flex items-center space-x-3">
@@ -18,10 +29,10 @@ const UserProfileLink = () => {
           <User className="h-5 w-5 text-white" />
         </div>
         <div className="hidden md:block">
-          <p className="text-sm font-medium text-gray-900">
-            {session.user.name || session.user.email}
+          <p className="text-sm font-medium text-gray-900 max-w-32 truncate" title={session?.user.name || session?.user.email}>
+            {session?.user.name || session?.user.email}
           </p>
-          <p className="text-xs text-gray-500">{session.user.email}</p>
+          <p className="text-xs text-gray-500 truncate max-w-32" title={session?.user.email}>{session?.user.email}</p>
         </div>
       </div>
     </Link>
@@ -29,10 +40,10 @@ const UserProfileLink = () => {
 };
 
 const NavBar = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   return (
-    <nav className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+    <nav className="bg-background shadow-sm border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo Section */}
@@ -50,7 +61,7 @@ const NavBar = () => {
               />
             </Link>
           </div>
-          {session ? (
+          {status === "loading" || status === "authenticated" ? (
             <UserProfileLink />
           ) : (
             <div className="flex items-center space-x-4">

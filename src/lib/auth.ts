@@ -50,6 +50,7 @@ export const authOptions: AuthOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
+      // This runs post u hit signIn()
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
           return null;
@@ -90,6 +91,7 @@ export const authOptions: AuthOptions = {
   },
   callbacks: {
     async jwt({ token, user }) {
+      console.log("[JWT ran]", token);
       if (user) {
         token.id = user.id;
         token.email = user.email;

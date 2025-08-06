@@ -9,7 +9,7 @@ const MainLayout = async ({ children }: PropsWithChildren) => {
   if (!session?.user) return redirect("/landing");
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       <NavBar />
       <main className="pt-0">{children}</main>
     </div>
