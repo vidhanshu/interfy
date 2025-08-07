@@ -91,7 +91,6 @@ export const authOptions: AuthOptions = {
   },
   callbacks: {
     async jwt({ token, user }) {
-      console.log("[JWT ran]", token);
       if (user) {
         token.id = user.id;
         token.email = user.email;

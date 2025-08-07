@@ -29,10 +29,18 @@ const UserProfileLink = () => {
           <User className="h-5 w-5 text-white" />
         </div>
         <div className="hidden md:block">
-          <p className="text-sm font-medium text-gray-900 max-w-32 truncate" title={session?.user.name || session?.user.email}>
+          <p
+            className="text-sm font-medium text-gray-900 max-w-32 truncate"
+            title={session?.user.name || session?.user.email}
+          >
             {session?.user.name || session?.user.email}
           </p>
-          <p className="text-xs text-gray-500 truncate max-w-32" title={session?.user.email}>{session?.user.email}</p>
+          <p
+            className="text-xs text-gray-500 truncate max-w-32"
+            title={session?.user.email}
+          >
+            {session?.user.email}
+          </p>
         </div>
       </div>
     </Link>
@@ -44,7 +52,7 @@ const NavBar = () => {
 
   return (
     <nav className="bg-background shadow-sm border-b border-gray-200 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl px-4 mx-auto">
         <div className="flex justify-between items-center h-16">
           {/* Logo Section */}
           <div className="flex items-center">

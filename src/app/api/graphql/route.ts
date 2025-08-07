@@ -1,14 +1,17 @@
 // src/app/api/graphql/route.ts
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
+import { makeExecutableSchema } from "@graphql-tools/schema";
 import { ApolloServer } from "@apollo/server";
-import { typeDefs, resolvers } from "@/graphql";
+import { resolvers, typeDefs } from "@/graphql";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 
 const server = new ApolloServer({
-  typeDefs,
-  resolvers,
+  schema: makeExecutableSchema({
+    typeDefs,
+    resolvers,
+  }),
 });
 
 export const GET = startServerAndCreateNextHandler(server, {

@@ -164,7 +164,7 @@ const ProfilePage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-primary/5 py-8 px-4">
+    <div className="min-h-screen py-8">
       <div className="max-w-2xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Profile</h1>
@@ -173,7 +173,7 @@ const ProfilePage = () => {
 
         <Card className="shadow-lg border-0">
           <CardHeader className="pb-4">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-x-4">
               <div>
                 <CardTitle className="text-2xl font-semibold text-gray-900">
                   Personal Information

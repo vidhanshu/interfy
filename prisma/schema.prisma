@@ -14,10 +14,30 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  name      String?
-  email     String   @unique
-  hash      String
+  id               String    @id @default(uuid())
+  name             String?
+  email            String    @unique
+  hash             String
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  createdCompanies Company[]
+}
+
+model Company {
+  id          String   @id @default(uuid())
+  // basic details
+  name        String
+  website     String?
+  industry    String   @default("other")
+  size        String?
+  description String?
+  verified    Boolean  @default(false) // When we add admin dashboard this field will tell if company is verified by interfy
+  hq          String?
+  mission     String?
+  foundedIn   DateTime
+  createdBy   User     @relation(fields: [createdById], references: [id])
+  createdById String
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

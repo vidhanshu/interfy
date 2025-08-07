@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ApolloWrapper } from "@/frontend/apollo-provider";
 import { Toaster } from "@/components/ui/sonner";
-import { SessionProvider } from "next-auth/react";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import NextSessionProvider from "@/components/session-provider";
 
 const geistSans = Geist({
@@ -33,7 +33,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ApolloWrapper>
-          <NextSessionProvider>{children}</NextSessionProvider>
+          <NextSessionProvider>
+            <NuqsAdapter>{children}</NuqsAdapter>
+          </NextSessionProvider>
         </ApolloWrapper>
         <Toaster position="bottom-right" duration={3000} richColors />
       </body>

@@ -1,8 +1,6 @@
 import gql from "graphql-tag";
 
 export const userTypeDefs = gql`
-  scalar DateTime
-
   type User {
     id: ID!
     name: String
@@ -11,11 +9,11 @@ export const userTypeDefs = gql`
     updatedAt: DateTime
   }
 
-  type Query {
+  extend type Query {
     me: User
   }
 
-  type Mutation {
+  extend type Mutation {
     createUser(email: String!, password: String!): User
     updateUser(name: String, email: String): User
     deleteUser: Boolean

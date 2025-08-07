@@ -9,15 +9,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { User, Mail, Calendar, Shield } from "lucide-react";
+import { User, Mail, Calendar, Shield, Briefcase } from "lucide-react";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function Home() {
+export default function HomePage() {
   const { data: session, status } = useSession();
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <div className="mx-auto py-8">
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">
           Welcome to Interfy
@@ -73,12 +73,22 @@ export default function Home() {
                 <CardDescription>Manage your account</CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
-                <Link href="/profile">
-                  <Button className="w-full justify-start" variant="outline">
-                    <User className="h-4 w-4 mr-2" />
-                    Edit Profile
-                  </Button>
-                </Link>
+                <div>
+                  <Link href="/profile">
+                    <Button className="w-full justify-start" variant="outline">
+                      <User className="h-4 w-4 mr-2" />
+                      Edit Profile
+                    </Button>
+                  </Link>
+                </div>
+                <div>
+                  <Link href="/companies">
+                    <Button className="w-full justify-start" variant="outline">
+                      <Briefcase className="h-4 w-4 mr-2" />
+                      Companies
+                    </Button>
+                  </Link>
+                </div>
               </CardContent>
             </Card>
 

@@ -11,7 +11,7 @@ const MainLayout = async ({ children }: PropsWithChildren) => {
   return (
     <div className="min-h-screen">
       <NavBar />
-      <main className="pt-0">{children}</main>
+      <main className="pt-0 max-w-6xl px-4 mx-auto">{children}</main>
     </div>
   );
 };

@@ -1,0 +1,70 @@
+query GetCompany($id: String!) {
+  company(id: $id) {
+    id
+    name
+    website
+    industry
+    size
+    description
+    hq
+    mission
+    foundedIn
+    verified
+    createdAt
+    updatedAt
+    createdBy {
+      id
+      name
+      email
+    }
+  }
+}
+
+query GetCompanies($page: Int, $limit: Int, $search: String) {
+  companies(page: $page, limit: $limit, search: $search) {
+    companies {
+      id
+      name
+      website
+      industry
+      size
+      description
+      hq
+      mission
+      foundedIn
+      verified
+      createdAt
+      updatedAt
+      createdBy {
+        id
+        name
+        email
+      }
+    }
+    total
+    page
+    limit
+  }
+}
+
+mutation CreateCompany($input: CreateCompanyInput!) {
+  createCompany(input: $input) {
+    id
+    name
+    website
+    industry
+    size
+    description
+    hq
+    mission
+    foundedIn
+    verified
+    createdAt
+    updatedAt
+    createdBy {
+      id
+      name
+      email
+    }
+  }
+}
